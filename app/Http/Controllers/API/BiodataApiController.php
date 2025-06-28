@@ -117,3 +117,4 @@ class BiodataApiController extends Controller
     return response()->json($this->format($biodata));
 }
 }
+

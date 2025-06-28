@@ -15,6 +15,8 @@
     
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
 
     <style>
         /* --- Palet Warna "Samudra Hindia" (Cool & Techy) --- */
@@ -136,43 +138,49 @@
                     </li>
                     
                     @auth
-                        <!-- JIKA PENGGUNA SUDAH LOGIN, TAMPILKAN MENU INI -->
-                        <li class="nav-item">
-                            {{-- INI ADALAH ALAMAT YANG BENAR, MENGARAH KE WEB CONTROLLER --}}
-                            <a class="nav-link" href="{{ route('projects.index') }}">Manajemen Project</a>
-                        </li>
-                         <li class="nav-item">
-                             {{-- INI ADALAH ALAMAT YANG BENAR, MENGARAH KE WEB CONTROLLER --}}
-                            <a class="nav-link" href="{{ route('biodatas.index') }}">Manajemen Biodata</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ Auth::user()->name }}
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
-                                            Logout
-                                        </a>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    @else
-                        <!-- JIKA BELUM LOGIN (TAMU), TAMPILKAN MENU INI -->
-                        <li class="nav-item">
-                            <a href="{{ route('login') }}" class="nav-link">Login</a>
-                        </li>
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a href="{{ route('register') }}" class="btn btn-primary btn-sm ms-2">Register</a>
-                            </li>
-                        @endif
-                    @endauth
+    <!-- JIKA PENGGUNA SUDAH LOGIN, TAMPILKAN MENU INI -->
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="masterDataDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Master Data
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="masterDataDropdown">
+        <li><a class="dropdown-item" href="{{ route('projects.index') }}">Manajemen Project</a></li>
+        <li><a class="dropdown-item" href="{{ route('biodatas.index') }}">Manajemen Biodata</a></li>
+        <li><a class="dropdown-item" href="{{ route('skills.index') }}">Manajemen Skill</a></li>
+        <li><a class="dropdown-item" href="{{ route('work-experiences.index') }}">Manajemen Pengalaman Kerja</a></li>
+        <li><a class="dropdown-item" href="{{ route('educations.index') }}">Manajemen Pendidikan</a></li>
+    </ul>
+</li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ Auth::user()->name }}
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); this.closest('form').submit();">
+                    Logout
+                </a>
+            </form>
+        </li>
+    </ul>
+</li>
+@else
+    <!-- JIKA BELUM LOGIN (TAMU), TAMPILKAN MENU INI -->
+    <li class="nav-item">
+        <a href="{{ route('login') }}" class="nav-link">Login</a>
+    </li>
+    @if (Route::has('register'))
+        <li class="nav-item">
+            <a href="{{ route('register') }}" class="btn btn-primary btn-sm ms-2">Register</a>
+        </li>
+    @endif
+@endauth
+
                 </ul>
             </div>
         </div>
@@ -188,7 +196,7 @@
     <!-- Footer -->
     <footer class="footer-custom text-center">
         <div class="container">
-            <p class="mb-0">&copy; {{ date('Y') }} - Dibuat dengan oleh Diva Resti N</p>
+            <p class="mb-0">&copy; {{ date('Y') }} - Dibuat Oleh Kelompok 3</p>
         </div>
     </footer>
 
