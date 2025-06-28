@@ -137,8 +137,8 @@ Pastikan route tersebut sudah benar.
     }
 
     // GANTI URL DI BAWAH INI DENGAN URL API PUBLIK TEMAN ANDA SETELAH DEPLOY
-    const apiUrlTeman1 = 'https://URL-API-TEMAN-1.com/api/projects'; // CONTOH
-    const apiUrlTeman2 = 'https://URL-API-TEMAN-2.com/api/projects'; // CONTOH
+    const apiUrlTeman1 = 'http://192.168.10.242:8000/api/projects';// CONTOH
+    const apiUrlTeman2 = 'https://deva-syaiful.my.id/api/profile-export';// CONTOH
 
     document.addEventListener('DOMContentLoaded', () => {
         fetchAndDisplayProjects(apiUrlTeman1, 'teman1-projects');

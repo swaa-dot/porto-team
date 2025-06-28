@@ -10,33 +10,25 @@ use Illuminate\Support\Facades\Validator;
 
 class BiodataApiController extends Controller
 {
-    /**
-     * READ
-     * Mengambil data biodata yang ada.
-     */
+    // Tampilkan semua biodata (jika mendukung multi user)
     public function index()
     {
-        $biodata = Biodata::first();
-        if (!$biodata) {
-            return response()->json(['message' => 'Biodata not found.'], 404);
-        }
+        return response()->json($this->formatCollection(Biodata::latest()->get()));
+    }
+
+    // Tampilkan detail spesifik (show)
+    public function show(Biodata $biodata)
+    {
         return response()->json($this->format($biodata));
     }
 
-    /**
-     * CREATE / UPDATE
-     * Membuat biodata baru jika belum ada, atau memperbarui jika sudah ada.
-     */
+    // Simpan data baru (create)
     public function store(Request $request)
     {
-        // Mengambil data yang ada, atau membuat instance baru jika kosong.
-        $biodata = Biodata::firstOrNew();
-
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|string|max:255',
             'bio_singkat'  => 'required|string|max:500',
-            // Validasi email unik, kecuali untuk data itu sendiri.
-            'email'        => 'required|email|unique:biodatas,email,' . ($biodata->id ?? 'NULL') . ',id',
+            'email'        => 'required|email|unique:biodatas,email',
             'foto_profil'  => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
@@ -44,33 +36,84 @@ class BiodataApiController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $dataToUpdate = $request->only(['nama_lengkap', 'bio_singkat', 'email']);
+        $data = $request->only(['nama_lengkap', 'bio_singkat', 'email']);
 
         if ($request->hasFile('foto_profil')) {
-            // Hapus foto lama jika ada
+            $data['foto_profil'] = $request->file('foto_profil')->store('profile_photos', 'public');
+        }
+
+        $biodata = Biodata::create($data);
+
+        return response()->json($this->format($biodata), 201);
+    }
+
+    // Update data
+    public function update(Request $request, Biodata $biodata)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama_lengkap' => 'required|string|max:255',
+            'bio_singkat'  => 'required|string|max:500',
+            'email'        => 'required|email|unique:biodatas,email,' . $biodata->id,
+            'foto_profil'  => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $data = $request->only(['nama_lengkap', 'bio_singkat', 'email']);
+
+        if ($request->hasFile('foto_profil')) {
+            // Hapus gambar lama
             if ($biodata->foto_profil) {
                 Storage::disk('public')->delete($biodata->foto_profil);
             }
-            // Simpan foto baru
-            $dataToUpdate['foto_profil'] = $request->file('foto_profil')->store('profile_photos', 'public');
+            $data['foto_profil'] = $request->file('foto_profil')->store('profile_photos', 'public');
         }
 
-        // Mengisi data dan menyimpannya (baik itu record baru maupun update)
-        $biodata->fill($dataToUpdate)->save();
+        $biodata->update($data);
 
-        return response()->json($this->format($biodata), 200); // 200 OK
+        return response()->json($this->format($biodata));
     }
 
-    /**
-     * Helper function untuk memformat output JSON secara konsisten.
-     */
+    // Hapus data
+    public function destroy(Biodata $biodata)
+    {
+        if ($biodata->foto_profil) {
+            Storage::disk('public')->delete($biodata->foto_profil);
+        }
+
+        $biodata->delete();
+
+        return response()->json(['message' => 'Biodata berhasil dihapus.']);
+    }
+
+    // Format response 1 item
     private function format(Biodata $biodata)
     {
         return [
+            'id'              => $biodata->id,
             'nama_lengkap'    => $biodata->nama_lengkap,
             'bio_singkat'     => $biodata->bio_singkat,
             'email'           => $biodata->email,
             'foto_profil_url' => $biodata->foto_profil ? asset('storage/' . $biodata->foto_profil) : null,
+            'dibuat'          => $biodata->created_at->format('d F Y'),
         ];
     }
+
+    // Format response banyak item
+    private function formatCollection($items)
+    {
+        return $items->map(fn($b) => $this->format($b));
+    }
+
+    public function utama()
+{
+    $biodata = Biodata::latest()->first(); // atau pakai where user_id jika multiuser
+    if (!$biodata) {
+        return response()->json(['message' => 'Biodata tidak ditemukan'], 404);
+    }
+
+    return response()->json($this->format($biodata));
+}
 }
