@@ -1,0 +1,40 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container my-5">
+    <h2 class="mb-4">Tambah Pengalaman Kerja</h2>
+
+    <form action="{{ route('work-experiences.store') }}" method="POST">
+        @csrf
+
+        <div class="mb-3">
+            <label class="form-label">Posisi</label>
+            <input type="text" name="posisi" class="form-control" value="{{ old('posisi') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Perusahaan</label>
+            <input type="text" name="perusahaan" class="form-control" value="{{ old('perusahaan') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Deskripsi</label>
+            <textarea name="deskripsi" class="form-control" rows="4">{{ old('deskripsi') }}</textarea>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Tanggal Mulai</label>
+                <input type="date" name="tanggal_mulai" class="form-control" value="{{ old('tanggal_mulai') }}" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Tanggal Selesai</label>
+                <input type="date" name="tanggal_selesai" class="form-control" value="{{ old('tanggal_selesai') }}">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ route('work-experiences.index') }}" class="btn btn-secondary">Kembali</a>
+    </form>
+</div>
+@endsection
