@@ -73,9 +73,9 @@
                     </form>
 
                     <!-- Link ke Halaman Registrasi -->
-                    <div class="text-center mt-4">
+                    {{-- <div class="text-center mt-4">
                         <p class="text-muted">Belum punya akun? <a href="{{ route('register') }}" style="color: var(--primary-accent);">Daftar di sini</a></p>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
