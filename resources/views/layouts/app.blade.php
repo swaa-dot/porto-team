@@ -26,28 +26,6 @@
 
         /* [DEFAULT] Palet Warna Mode Gelap "Langit Tenang" */
         :root,
-        body[data-theme="dark"] {
-            --bg-main: #0f172a;
-            /* lebih gelap tapi stabil */
-            --bg-card: rgba(30, 41, 59, 0.85);
-            /* lebih gelap & solid */
-            --bg-nav: rgba(15, 23, 42, 0.8);
-            --primary-accent: #a855f7;
-            /* ungu */
-            --primary-accent-hover: #c084fc;
-            --secondary-accent: #22d3ee;
-            /* biru muda */
-            --text-main: #e2e8f0;
-            /* terang untuk teks utama */
-            --text-muted: #94a3b8;
-            /* tetap soft */
-            --border-color: rgba(255, 255, 255, 0.3);
-            /* lebih terang */
-            --shadow-color: rgba(168, 85, 247, 0.4);
-            --btn-text-color: #ffffff;
-            --bio: #ffffff;
-        }
-
         /* Palet Warna Mode Terang "Mentari Pagi" */
         body[data-theme="light"] {
             --bg-main: #f0f7ff;
@@ -58,7 +36,6 @@
             --secondary-accent: #0891b2;
             --text-main: #1e3a8a;
             --text-muted: #6b7280;
-            --bio: #ffffff;
             --border-color: #e2e8f0;
             --shadow-color: rgba(79, 70, 229, 0.2);
             --btn-text-color: #ffffff;
@@ -93,29 +70,21 @@
         }
 
         /* Tampilkan/Sembunyikan Animasi berdasarkan Tema */
-        body[data-theme="dark"] .light-mode-animation {
-            opacity: 0;
-            pointer-events: none;
-        }
+     
 
         body[data-theme="light"] .dark-mode-animation {
             opacity: 0;
             pointer-events: none;
         }
 
-        body[data-theme="dark"] .dark-mode-animation {
-            opacity: 1;
-        }
+      
 
         body[data-theme="light"] .light-mode-animation {
             opacity: 1;
         }
 
         /* Animasi Bintang & Meteor (Mode Gelap) */
-        #stars {
-            background-image: radial-gradient(1px 1px at 20% 30%, white, transparent), radial-gradient(1.5px 1.5px at 50% 50%, white, transparent), radial-gradient(2px 2px at 90% 40%, white, transparent), radial-gradient(1.5px 1.5px at 10% 70%, white, transparent);
-            animation: twinkle 10s infinite;
-        }
+
 
         @keyframes twinkle {
             0% {
@@ -131,7 +100,7 @@
             }
         }
 
-        .meteor {
+        /* .meteor {
             background: linear-gradient(45deg, var(--secondary-accent), transparent);
             width: 2px;
             height: 200px;
@@ -148,9 +117,9 @@
             top: 10vh;
             left: 90vw;
             animation-delay: 12s;
-        }
+        } */
 
-        @keyframes meteor-fall {
+        /* @keyframes meteor-fall {
             0% {
                 opacity: 1;
                 transform: rotate(-45deg) translateX(50vw);
@@ -160,7 +129,7 @@
                 opacity: 0;
                 transform: rotate(-45deg) translateX(-100vw);
             }
-        }
+        } */
 
         /* Animasi Gelembung Cahaya (Mode Terang) */
         .orb {
@@ -318,55 +287,10 @@
             border: none;
             font-size: 1.25rem;
         }
-
-        .bio {
-            color: #ffffff;
-        }
-
-        .hero-section {
-    max-height: 450px;
-}
-
-.hero-wrapper {
-    position: relative;
-    overflow: hidden;
-    border-radius: 1rem;
-    aspect-ratio: 16/5;
-    max-height: 450px;
-}
-
-.hero-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    position: relative;
-    border-radius: 1rem;
-    opacity: 0.4; /* tambahkan efek transparan kalau perlu */
-}
-
-.hero-bg-blur {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    filter: blur(12px);
-    z-index: 0;
-    transform: scale(1.1); /* biar blur gak terpotong pinggirnya */
-}
-
-.hero-text {
-    z-index: 2;
-}
-
-    
     </style>
 </head>
 
-<body>
+<body data-theme="light">
     {{-- unutuk loading --}}
     <!-- LOADER -->
     <div id="loader">
@@ -377,11 +301,11 @@
     <!-- Wadah untuk Animasi Latar Belakang -->
     <div class="animation-container">
         <!-- Animasi Mode Gelap -->
-        <div class="dark-mode-animation animation-wrapper">
+        {{-- <div class="dark-mode-animation animation-wrapper">
             <div id="stars"></div>
             <div class="meteor"></div>
             <div class="meteor"></div>
-        </div>
+        </div> --}}
         <!-- Animasi Mode Terang -->
         <div class="light-mode-animation animation-wrapper">
             <div class="orb"></div>
@@ -408,7 +332,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/') }}">Home</a>
                     </li>
-                    
+
                     @auth
                     <!-- JIKA PENGGUNA SUDAH LOGIN, TAMPILKAN MENU INI -->
                     <li class="nav-item dropdown">
@@ -486,35 +410,7 @@
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- JAVASCRIPT UNTUK MODE TERANG/GELAP -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-                const themeToggle = document.getElementById('theme-toggle');
-                const sunIcon = document.getElementById('theme-icon-sun');
-                const moonIcon = document.getElementById('theme-icon-moon');
-                
-                const applyTheme = (theme) => {
-                    document.body.setAttribute('data-theme', theme);
-                    if (theme === 'light') {
-                        moonIcon.classList.remove('d-none');
-                        sunIcon.classList.add('d-none');
-                    } else {
-                        moonIcon.classList.add('d-none');
-                        sunIcon.classList.remove('d-none');
-                    }
-                };
 
-                const savedTheme = localStorage.getItem('theme') || 'dark';
-                applyTheme(savedTheme);
-
-                themeToggle.addEventListener('click', () => {
-                    let currentTheme = document.body.getAttribute('data-theme') || 'dark';
-                    let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                    applyTheme(newTheme);
-                    localStorage.setItem('theme', newTheme);
-                });
-            });
-    </script>
 
 </body>
 

@@ -327,7 +327,7 @@
     } else {
         t1.style.display = 'none';
         t2.style.display = 'block';
-        b1.classList.remove('active');
+        b1.classList.remove('active');  
         b2.classList.add('active');
     }
 }
