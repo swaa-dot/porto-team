@@ -3,14 +3,16 @@
 @section('content')
 <div class="container my-5">
 
-    <!-- HERO SECTION -->
-   <!-- HERO SECTION -->
+<!-- HERO SECTION -->
 <section class="mb-5 position-relative hero-section">
-    <div class="hero-wrapper text-center position-relative">
-        <!-- Gambar blur -->
+    <div class="hero-wrapper text-center">
+        <!-- Gambar blur sebagai background -->
         <div class="hero-bg-blur" style="background-image: url('{{ asset('storage/project_images/crown.jpeg') }}');"></div>
 
-        <!-- Gambar asli (untuk fallback atau efek tambahan) -->
+        <!-- Overlay gelap agar teks lebih kontras -->
+        <div class="hero-overlay"></div>
+
+        <!-- Gambar asli disembunyikan (fallback jika perlu bisa dipakai kembali) -->
         <img src="{{ asset('storage/project_images/crown.jpeg') }}" class="hero-image img-fluid rounded-4" alt="Foto Hero">
 
         <!-- Teks di atas gambar -->
@@ -25,34 +27,45 @@
 
 
 
-    <!-- HEADER & BIODATA -->
-    <header class="text-center mb-5">
-        @if($biodata)
-        <img src="{{ asset('storage/' . $biodata->foto_profil) }}"
-            class="rounded-circle shadow-lg mb-3 border border-4 border-primary" alt="Foto Profil"
-            style="width: 150px; height: 150px; object-fit: cover;">
-        <h1 class="fw-bold text-primary">{{ $biodata->nama_lengkap }}</h1>
-        <p class="biodata default-text d-block">{{ $biodata->bio_singkat }}</p>
-        <div class="d-flex justify-content-center gap-2 flex-wrap">
-            @if($biodata->email)
-            <a href="mailto:{{ $biodata->email }}" class="btn btn-outline-dark btn-sm"><i class="bi bi-envelope"></i>
-                Email</a>
-            @endif
-            @if($biodata->linkedin)
-            <a href="{{ $biodata->linkedin }}" class="btn btn-outline-primary btn-sm" target="_blank"><i
-                    class="bi bi-linkedin"></i> LinkedIn</a>
-            @endif
-            @if($biodata->github)
-            <a href="{{ $biodata->github }}" class="btn btn-outline-dark btn-sm" target="_blank"><i
-                    class="bi bi-github"></i> GitHub</a>
-            @endif
+ <!-- HEADER & BIODATA -->
+<header class="bg-white p-5 rounded-4 mb-5">
+    @if($biodata)
+    <div class="row align-items-center">
+        <!-- Foto Profil di Kiri -->
+        <div class="col-md-4 text-center mb-4 mb-md-0">
+            <img src="{{ asset('storage/' . $biodata->foto_profil) }}"
+                class="rounded-circle shadow-lg border border-4 border-primary"
+                alt="Foto Profil"
+                style="width: 350px; height: 350px; object-fit: cover;">
         </div>
-        @else
+
+        <!-- Nama, Bio, dan Tombol di Kanan -->
+        <div class="col-md-8 text-md-start text-center">
+            <h1 class="fw-bold text-primary">{{ $biodata->nama_lengkap }}</h1>
+            <p class="biodata default-text">{{ $biodata->bio_singkat }}</p>
+            <div class="d-flex flex-wrap gap-2 justify-content-md-start justify-content-center">
+                @if($biodata->linkedin)
+                <a href="{{ $biodata->linkedin }}" class="btn btn-outline-primary btn-sm" target="_blank">
+                    <i class="bi bi-linkedin"></i> LinkedIn
+                </a>
+                @endif
+                @if($biodata->github)
+                <a href="{{ $biodata->github }}" class="btn btn-outline-dark btn-sm" target="_blank">
+                    <i class="bi bi-github"></i> GitHub
+                </a>
+                @endif
+            </div>
+        </div>
+    </div>
+    @else
+    <!-- Jika Belum Ada Biodata -->
+    <div class="text-center">
         <h1 class="fw-bold text-primary">Selamat Datang di Portofolio</h1>
-        <p class="text-muted">Portofolio ini sedang dalam pengembangan. Silakan login dan gunakan API untuk mengelola
-            konten.</p>
-        @endif
-    </header>
+        <p class="text-muted">Portofolio ini sedang dalam pengembangan. Silakan login dan gunakan API untuk mengelola konten.</p>
+    </div>
+    @endif
+</header>
+
 
     <!-- SKILLS SECTION -->
     @if($skills && count($skills))

@@ -70,14 +70,14 @@
         }
 
         /* Tampilkan/Sembunyikan Animasi berdasarkan Tema */
-     
+
 
         body[data-theme="light"] .dark-mode-animation {
             opacity: 0;
             pointer-events: none;
         }
 
-      
+
 
         body[data-theme="light"] .light-mode-animation {
             opacity: 1;
@@ -286,6 +286,63 @@
             background: none;
             border: none;
             font-size: 1.25rem;
+        }
+
+        .hero-section {
+            height: 60vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .hero-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-bg-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            transform: scale(1.1);
+            /* biar tidak ada garis pinggir */
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.4);
+            /* semi gelap agar teks kontras */
+            z-index: 2;
+        }
+
+        .hero-image {
+            display: none;
+            /* kita sembunyikan yang asli karena sudah pakai background */
+        }
+
+        .hero-text {
+            z-index: 3;
+            color: #ffffff;
+        }
+
+        .bio {
+            font-size: 150%;
+            color: #ffffff;
         }
     </style>
 </head>
